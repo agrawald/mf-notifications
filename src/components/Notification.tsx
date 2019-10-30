@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button, Col, ListGroup, Modal, Row } from 'react-bootstrap';
 import NotificationSvc from '../services/notification.svc';
 import { Notifications } from '../types/Notifications';
+import './Notification.css';
 
 interface IState {
   show: boolean;
@@ -72,8 +73,8 @@ class Notification extends React.Component<any, IState> {
         <Modal
           show={this.state.show}
           onHide={this.onHide}
-          dialogClassName="modal-90w"
-          aria-labelledby="example-custom-modal-styling-title"
+          dialogClassName="custom-modal"
+          bsclass="my-modal"
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">

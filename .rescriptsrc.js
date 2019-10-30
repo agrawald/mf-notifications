@@ -1,6 +1,6 @@
 module.exports = {
     webpack: config => {
-        config.output.libraryTarget = 'amd';
+        config.output.libraryTarget = 'umd';
         config.output.filename = 'static/js/bundle.js';
 
         config.optimization.splitChunks = undefined;

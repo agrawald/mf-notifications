@@ -1,26 +1,20 @@
 import * as React from 'react';
 import { Button, Col, ListGroup, Modal, Row } from 'react-bootstrap';
-import NotificationSvc from '../services/notification.svc';
-import { Notifications } from '../types/Notifications';
+import { Message } from '../types/Message';
 
 interface IState {
   show: boolean;
-  notifications?: Notifications;
+  notifications?: Message[];
 }
 
 class Notification extends React.Component<any, IState> {
   state = {
     show: false,
-    notifications: {
-      messages: []
-    }
+    notifications: []
   };
-
-  notificationSvc: NotificationSvc;
 
   constructor(props: any) {
     super(props);
-    this.notificationSvc = new NotificationSvc();
     this.onHide = this.onHide.bind(this);
   }
 
@@ -29,19 +23,23 @@ class Notification extends React.Component<any, IState> {
   }
 
   componentDidMount() {
-    const notifications = this.notificationSvc.getAll();
-    this.setState({ ...this.state, show: true, notifications: notifications });
+    fetch('http://localhost:8080/notifications')
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ show: true, notifications: data });
+      })
+      .catch(console.log);
   }
 
   componentWillUnmount() {
     this.setState({ ...this.state, show: false });
   }
 
-  renderMessage(message: string) {
+  renderMessage(message: Message) {
     return (
       <ListGroup.Item>
         <Row>
-          <Col>{message}</Col>
+          <Col>{message.text}</Col>
           <Col>
             <Button
               href="#"
@@ -62,7 +60,7 @@ class Notification extends React.Component<any, IState> {
     const { notifications } = this.state;
     const messages = [];
     if (notifications) {
-      for (const msg of notifications.messages) {
+      for (const msg of notifications) {
         messages.push(this.renderMessage(msg));
       }
     }

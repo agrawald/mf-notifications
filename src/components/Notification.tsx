@@ -23,7 +23,7 @@ class Notification extends React.Component<any, IState> {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/notifications')
+    fetch('http://' + process.env.REACT_APP_NOTIFICATION_URL + '/notifications')
       .then(res => res.json())
       .then(data => {
         this.setState({ show: true, notifications: data });
